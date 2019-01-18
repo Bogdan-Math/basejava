@@ -1,10 +1,10 @@
-import static java.lang.String.format;
 import static java.lang.System.arraycopy;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
+    private static final int ELEMENT_NOT_EXIST_INDEX = -1;
 
     private Resume[] storage = new Resume[10000];
     private int size = 0;
@@ -17,25 +17,24 @@ public class ArrayStorage {
     }
 
     void save(Resume resume) {
-        if (isExists(resume.uuid)) {
-            storage[indexOf(resume.uuid)] = resume;
-        } else {
+        int index = indexOf(resume.uuid);
+        if (!isExist(index)) {
             storage[size] = resume;
             size++;
         }
     }
 
     Resume get(String uuid) {
-        if (isExists(uuid)) {
-            return storage[indexOf(uuid)];
-        } else {
-            return null;
+        int index = indexOf(uuid);
+        if (isExist(index)) {
+            return storage[index];
         }
+        return null;
     }
 
     void delete(String uuid) {
-        if (isExists(uuid)) {
-            int index = indexOf(uuid);
+        int index = indexOf(uuid);
+        if (isExist(index)) {
             int tail = size - index - 1;
             arraycopy(storage, index + 1, storage, index, tail);
             storage[size] = null;
@@ -56,13 +55,8 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean isExists(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].uuid)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isExist(int currentIndex) {
+        return currentIndex != ELEMENT_NOT_EXIST_INDEX;
     }
 
     private int indexOf(String uuid) {
@@ -71,6 +65,6 @@ public class ArrayStorage {
                 return i;
             }
         }
-        throw new RuntimeException(format("Can't find index of required element. Resume with uuid=%s NOT exists in storage.", uuid));
+        return ELEMENT_NOT_EXIST_INDEX;
     }
 }
