@@ -7,6 +7,7 @@ import main.code.storage.ArrayStorage;
  * Test for your main.code.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
+
     private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {

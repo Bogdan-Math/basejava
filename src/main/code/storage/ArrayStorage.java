@@ -8,7 +8,8 @@ import static java.lang.System.arraycopy;
  * Array based main.code.storage for Resumes
  */
 public class ArrayStorage {
-    private static final int ELEMENT_NOT_EXIST_INDEX = -1;
+
+    private static final int NOT_EXIST_INDEX = -1;
 
     private Resume[] storage = new Resume[10000];
     private int size = 0;
@@ -37,7 +38,10 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-
+        int index = indexOf(resume.getUuid());
+        if (isExist(index)) {
+            storage[index] = resume;
+        }
     }
 
     public void delete(String uuid) {
@@ -63,8 +67,8 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean isExist(int currentIndex) {
-        return currentIndex != ELEMENT_NOT_EXIST_INDEX;
+    private boolean isExist(int index) {
+        return index != NOT_EXIST_INDEX;
     }
 
     private int indexOf(String uuid) {
@@ -73,6 +77,6 @@ public class ArrayStorage {
                 return i;
             }
         }
-        return ELEMENT_NOT_EXIST_INDEX;
+        return NOT_EXIST_INDEX;
     }
 }

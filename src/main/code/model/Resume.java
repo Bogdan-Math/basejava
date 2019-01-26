@@ -5,7 +5,6 @@ package main.code.model;
  */
 public class Resume {
 
-    // Unique identifier
     private String uuid;
 
     public String getUuid() {
