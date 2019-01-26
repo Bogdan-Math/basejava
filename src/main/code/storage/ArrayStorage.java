@@ -2,7 +2,8 @@ package main.code.storage;
 
 import main.code.model.Resume;
 
-import static java.lang.System.arraycopy;
+import static java.util.Arrays.copyOfRange;
+import static java.util.Arrays.fill;
 
 /**
  * Array based main.code.storage for Resumes
@@ -19,9 +20,7 @@ public class ArrayStorage {
     private int size = 0;
 
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        fill(storage, null);
         size = 0;
     }
 
@@ -63,9 +62,9 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = indexOf(uuid);
         if (isExist(index)) {
-            int tail = size - index - 1;
-            arraycopy(storage, index + 1, storage, index, tail);
-            storage[size] = null;
+            int lastElementIndex = size - 1;
+            storage[index] = storage[lastElementIndex];
+            storage[lastElementIndex] = null;
             size--;
         } else {
             System.out.println(RESUME_NOT_EXIST);
@@ -76,9 +75,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in main.code.storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] realResumes = new Resume[size];
-        arraycopy(storage, 0, realResumes, 0, size);
-        return realResumes;
+        return copyOfRange(storage, 0, size);
     }
 
     public int size() {
