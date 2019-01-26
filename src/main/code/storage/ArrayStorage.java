@@ -9,6 +9,10 @@ import static java.lang.System.arraycopy;
  */
 public class ArrayStorage {
 
+    private static final String RESUME_NOT_EXIST = "Resume NOT EXIST in the storage.";
+    private static final String RESUME_IS_EXIST = "Resume already EXIST in the storage.";
+    private static final String STORAGE_IS_FULL = "Storage is FULL.";
+
     private static final int NOT_EXIST_INDEX = -1;
 
     private Resume[] storage = new Resume[10000];
@@ -22,10 +26,18 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
+
+        if (storageIsFull()) {
+            System.out.println(STORAGE_IS_FULL);
+            return;
+        }
+
         int index = indexOf(resume.getUuid());
         if (!isExist(index)) {
             storage[size] = resume;
             size++;
+        } else {
+            System.out.println(RESUME_IS_EXIST);
         }
     }
 
@@ -33,14 +45,18 @@ public class ArrayStorage {
         int index = indexOf(uuid);
         if (isExist(index)) {
             return storage[index];
+        } else {
+            System.out.println(RESUME_NOT_EXIST);
+            return null;
         }
-        return null;
     }
 
     public void update(Resume resume) {
         int index = indexOf(resume.getUuid());
         if (isExist(index)) {
             storage[index] = resume;
+        } else {
+            System.out.println(RESUME_NOT_EXIST);
         }
     }
 
@@ -51,6 +67,8 @@ public class ArrayStorage {
             arraycopy(storage, index + 1, storage, index, tail);
             storage[size] = null;
             size--;
+        } else {
+            System.out.println(RESUME_NOT_EXIST);
         }
     }
 
@@ -78,5 +96,9 @@ public class ArrayStorage {
             }
         }
         return NOT_EXIST_INDEX;
+    }
+
+    private boolean storageIsFull() {
+        return size >= storage.length;
     }
 }
