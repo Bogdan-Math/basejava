@@ -31,43 +31,42 @@ public class ArrayStorage {
             return;
         }
 
-        int index = indexOf(resume.getUuid());
-        if (!isExist(index)) {
+        if (isExist(indexOf(resume.getUuid()))) {
+            System.out.println(RESUME_IS_EXIST);
+        } else {
             storage[size] = resume;
             size++;
-        } else {
-            System.out.println(RESUME_IS_EXIST);
         }
     }
 
     public Resume get(String uuid) {
         int index = indexOf(uuid);
-        if (isExist(index)) {
-            return storage[index];
-        } else {
+        if (!isExist(index)) {
             System.out.println(RESUME_NOT_EXIST);
             return null;
+        } else {
+            return storage[index];
         }
     }
 
     public void update(Resume resume) {
         int index = indexOf(resume.getUuid());
-        if (isExist(index)) {
-            storage[index] = resume;
-        } else {
+        if (!isExist(index)) {
             System.out.println(RESUME_NOT_EXIST);
+        } else {
+            storage[index] = resume;
         }
     }
 
     public void delete(String uuid) {
         int index = indexOf(uuid);
-        if (isExist(index)) {
+        if (!isExist(index)) {
+            System.out.println(RESUME_NOT_EXIST);
+        } else {
             int lastElementIndex = size - 1;
             storage[index] = storage[lastElementIndex];
             storage[lastElementIndex] = null;
             size--;
-        } else {
-            System.out.println(RESUME_NOT_EXIST);
         }
     }
 
