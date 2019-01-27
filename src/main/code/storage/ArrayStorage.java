@@ -20,7 +20,7 @@ public class ArrayStorage {
     private int size = 0;
 
     public void clear() {
-        fill(storage, null);
+        fill(storage, 0, size, null);
         size = 0;
     }
 
