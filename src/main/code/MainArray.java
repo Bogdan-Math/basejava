@@ -1,7 +1,7 @@
 package main.code;
 
 import main.code.model.Resume;
-import main.code.storage.ArrayStorage;
+import main.code.storage.SimpleArrayStorage;
 import main.code.storage.Storage;
 
 import java.io.BufferedReader;
@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for main.code.storage.ArrayStorage implementation
+ * Interactive test for main.code.storage.SimpleArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
 
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SimpleArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

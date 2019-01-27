@@ -1,15 +1,15 @@
 package main.code;
 
 import main.code.model.Resume;
-import main.code.storage.ArrayStorage;
+import main.code.storage.SimpleArrayStorage;
 import main.code.storage.Storage;
 
 /**
- * Test for your main.code.storage.ArrayStorage implementation
+ * Test for your main.code.storage.SimpleArrayStorage implementation
  */
 public class MainTestArrayStorage {
 
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SimpleArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();
