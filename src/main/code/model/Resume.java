@@ -3,7 +3,7 @@ package main.code.model;
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
 
     private String uuid;
 
@@ -30,5 +30,10 @@ public class Resume {
     @Override
     public String toString() {
         return uuid;
+    }
+
+    @Override
+    public int compareTo(Resume resume) {
+        return uuid.compareTo(resume.uuid);
     }
 }

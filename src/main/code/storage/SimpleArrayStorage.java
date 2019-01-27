@@ -1,5 +1,7 @@
 package main.code.storage;
 
+import main.code.model.Resume;
+
 public class SimpleArrayStorage extends AbstractArrayStorage {
 
     @Override
@@ -11,4 +13,15 @@ public class SimpleArrayStorage extends AbstractArrayStorage {
         }
         return NOT_EXIST_INDEX;
     }
+
+    @Override
+    void insert(Resume resume, int index) {
+        storage[size] = resume;
+    }
+
+    @Override
+    void fillEmptyCell(int index) {
+        storage[index] = storage[size - 1];
+    }
+
 }

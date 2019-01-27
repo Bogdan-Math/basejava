@@ -2,6 +2,7 @@ package main.code;
 
 import main.code.model.Resume;
 import main.code.storage.SimpleArrayStorage;
+import main.code.storage.SortedArrayStorage;
 import main.code.storage.Storage;
 
 /**
@@ -9,7 +10,7 @@ import main.code.storage.Storage;
  */
 public class MainTestArrayStorage {
 
-    private static final Storage ARRAY_STORAGE = new SimpleArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         final Resume r1 = new Resume();

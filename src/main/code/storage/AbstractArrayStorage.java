@@ -18,6 +18,10 @@ abstract class AbstractArrayStorage implements Storage {
 
     abstract int indexOf(String uuid);
 
+    abstract void insert(Resume resume, int index);
+
+    abstract void fillEmptyCell(int index);
+
     @Override
     public void save(Resume resume) {
 
@@ -26,10 +30,11 @@ abstract class AbstractArrayStorage implements Storage {
             return;
         }
 
-        if (isExist(indexOf(resume.getUuid()))) {
+        int index = indexOf(resume.getUuid());
+        if (isExist(index)) {
             System.out.println(RESUME_IS_EXIST);
         } else {
-            storage[size] = resume;
+            insert(resume, index);
             size++;
         }
     }
@@ -61,9 +66,8 @@ abstract class AbstractArrayStorage implements Storage {
         if (!isExist(index)) {
             System.out.println(RESUME_NOT_EXIST);
         } else {
-            int lastElementIndex = size - 1;
-            storage[index] = storage[lastElementIndex];
-            storage[lastElementIndex] = null;
+            fillEmptyCell(index);
+            storage[size - 1] = null;
             size--;
         }
     }
@@ -74,7 +78,7 @@ abstract class AbstractArrayStorage implements Storage {
     }
 
     private boolean isExist(int index) {
-        return index != NOT_EXIST_INDEX;
+        return index > NOT_EXIST_INDEX;
     }
 
     @Override
