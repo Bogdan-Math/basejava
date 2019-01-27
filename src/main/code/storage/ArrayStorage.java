@@ -5,10 +5,7 @@ import main.code.model.Resume;
 import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.fill;
 
-/**
- * Array based main.code.storage for Resumes
- */
-public class ArrayStorage {
+public class ArrayStorage implements Storage {
 
     private static final String RESUME_NOT_EXIST = "Resume NOT EXIST in the storage.";
     private static final String RESUME_IS_EXIST = "Resume already EXIST in the storage.";
@@ -20,11 +17,13 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
 
+    @Override
     public void clear() {
         fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public void save(Resume resume) {
 
         if (storageIsFull()) {
@@ -40,6 +39,7 @@ public class ArrayStorage {
         }
     }
 
+    @Override
     public Resume get(String uuid) {
         int index = indexOf(uuid);
         if (!isExist(index)) {
@@ -50,6 +50,7 @@ public class ArrayStorage {
         }
     }
 
+    @Override
     public void update(Resume resume) {
         int index = indexOf(resume.getUuid());
         if (!isExist(index)) {
@@ -59,6 +60,7 @@ public class ArrayStorage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = indexOf(uuid);
         if (!isExist(index)) {
@@ -71,13 +73,12 @@ public class ArrayStorage {
         }
     }
 
-    /**
-     * @return array, contains only Resumes in main.code.storage (without null)
-     */
+    @Override
     public Resume[] getAll() {
         return copyOfRange(storage, 0, size);
     }
 
+    @Override
     public int size() {
         return size;
     }
