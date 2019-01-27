@@ -14,9 +14,10 @@ public class ArrayStorage {
     private static final String RESUME_IS_EXIST = "Resume already EXIST in the storage.";
     private static final String STORAGE_IS_FULL = "Storage is FULL.";
 
+    private static final int STORAGE_LIMIT = 10000;
     private static final int NOT_EXIST_INDEX = -1;
 
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
 
     public void clear() {
@@ -95,6 +96,6 @@ public class ArrayStorage {
     }
 
     private boolean storageIsFull() {
-        return size >= storage.length;
+        return size >= STORAGE_LIMIT;
     }
 }
