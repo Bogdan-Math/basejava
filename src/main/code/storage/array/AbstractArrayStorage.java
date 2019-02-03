@@ -11,9 +11,10 @@ import static java.util.Arrays.fill;
 
 abstract class AbstractArrayStorage implements Storage {
 
+    static final int MAX_SIZE = 1000;
     static final int NOT_EXIST_INDEX = -1;
 
-    Resume[] storage    = new Resume[10000];
+    Resume[] storage    = new Resume[MAX_SIZE];
     int size            = 0;
 
     abstract int indexOf(String uuid);

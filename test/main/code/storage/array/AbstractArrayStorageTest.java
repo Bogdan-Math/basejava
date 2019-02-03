@@ -1,6 +1,8 @@
 package main.code.storage.array;
 
+import main.code.exception.ResumeAlreadyExistInStorageException;
 import main.code.exception.ResumeNotExistInStorageException;
+import main.code.exception.StorageIsFullException;
 import main.code.model.Resume;
 import main.code.storage.Storage;
 import org.junit.After;
@@ -15,6 +17,9 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
     private static final String UUID_3 = "uuid_3";
+
+    private static final String NEW_UUID = "NEW_UUID";
+    private static final String RESUME_NOT_EXIST_UUID = "resume_not_exist_uuid";
 
     private Storage storage;
 
@@ -36,7 +41,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void save() {
-        storage.save(new Resume("NEW_UUID"));
+        storage.save(new Resume(NEW_UUID));
         assertEquals(4, storage.size());
     }
 
@@ -78,7 +83,21 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = ResumeNotExistInStorageException.class)
-    public void resumeNotExist() {
-        storage.get("resume_not_exist_uuid");
+    public void resumeNotExistInStorageException() {
+        storage.get(RESUME_NOT_EXIST_UUID);
+    }
+
+    @Test(expected = ResumeAlreadyExistInStorageException.class)
+    public void resumeAlreadyExistInStorageException() {
+        storage.save(new Resume(UUID_1));
+    }
+
+    @Test
+    public void storageIsFullException() {
+        for (int i = 0; i <= AbstractArrayStorage.MAX_SIZE; i++) {
+            try { storage.save(new Resume()); } catch (StorageIsFullException e) {
+                assertEquals(AbstractArrayStorage.MAX_SIZE, storage.size());
+            }
+        }
     }
 }
