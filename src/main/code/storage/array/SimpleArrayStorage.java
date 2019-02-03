@@ -1,4 +1,4 @@
-package main.code.storage;
+package main.code.storage.array;
 
 import main.code.model.Resume;
 

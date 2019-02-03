@@ -1,12 +1,11 @@
 package main.code;
 
 import main.code.model.Resume;
-import main.code.storage.SimpleArrayStorage;
-import main.code.storage.SortedArrayStorage;
+import main.code.storage.array.SortedArrayStorage;
 import main.code.storage.Storage;
 
 /**
- * Test for your main.code.storage.SimpleArrayStorage implementation
+ * Test for your main.code.storage.array.SimpleArrayStorage implementation
  */
 public class MainTestArrayStorage {
 

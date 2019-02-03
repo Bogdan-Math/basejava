@@ -1,7 +1,8 @@
-package main.code.storage;
+package main.code.storage.array;
 
 import main.code.exception.ResumeNotExistInStorageException;
 import main.code.model.Resume;
+import main.code.storage.Storage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

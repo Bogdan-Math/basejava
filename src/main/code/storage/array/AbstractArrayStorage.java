@@ -1,9 +1,10 @@
-package main.code.storage;
+package main.code.storage.array;
 
 import main.code.exception.ResumeAlreadyExistInStorageException;
 import main.code.exception.ResumeNotExistInStorageException;
 import main.code.exception.StorageIsFullException;
 import main.code.model.Resume;
+import main.code.storage.Storage;
 
 import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.fill;
