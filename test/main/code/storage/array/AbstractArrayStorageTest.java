@@ -11,15 +11,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest {
 
-    private static final String UUID_1 = "uuid_1";
-    private static final String UUID_2 = "uuid_2";
-    private static final String UUID_3 = "uuid_3";
+    private static final String UUID_1 = "UUID_1";
+    private static final Resume RESUME_1 = new Resume(UUID_1);
+
+    private static final String UUID_2 = "UUID_2";
+    private static final Resume RESUME_2 = new Resume(UUID_2);
+
+    private static final String UUID_3 = "UUID_3";
+    private static final Resume RESUME_3 = new Resume(UUID_3);
 
     private static final String NEW_UUID = "NEW_UUID";
-    private static final String RESUME_NOT_EXIST_UUID = "resume_not_exist_uuid";
+    private static final Resume NEW_RESUME = new Resume(NEW_UUID);
 
     private Storage storage;
 
@@ -29,9 +35,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Before
     public void setUp() {
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(RESUME_1);
+        storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @After
@@ -40,26 +46,60 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
+    public void saveStorageIsFullException() {
+        try {
+            for (int i = storage.size(); i <= AbstractArrayStorage.MAX_SIZE; i++) {
+                storage.save(new Resume());
+            }
+            fail();
+        } catch (StorageIsFullException e) {
+            assertStorageSize(AbstractArrayStorage.MAX_SIZE);
+        }
+    }
+
+    @Test(expected = ResumeAlreadyExistInStorageException.class)
+    public void saveResumeAlreadyExistInStorageException() {
+        storage.save(RESUME_1);
+    }
+
+    @Test
     public void save() {
-        storage.save(new Resume(NEW_UUID));
-        assertEquals(4, storage.size());
+        storage.save(NEW_RESUME);
+        assertStorageSize(4);
+        assertEquals(NEW_RESUME, storage.get(NEW_UUID));
+    }
+
+    @Test(expected = ResumeNotExistInStorageException.class)
+    public void resumeNotExistInStorageException() {
+        storage.get(NEW_UUID);
     }
 
     @Test
     public void get() {
-        assertEquals(UUID_1, storage.get(UUID_1).getUuid());
+        assertEquals(RESUME_1, storage.get(UUID_1));
+    }
+
+    @Test(expected = ResumeNotExistInStorageException.class)
+    public void updateResumeNotExistInStorageException() {
+        storage.update(NEW_RESUME);
     }
 
     @Test
     public void update() {
         storage.update(new Resume(UUID_1));
-        assertEquals(3, storage.size());
+        assertStorageSize(3);
+        assertEquals(RESUME_1.getUuid(), storage.get(UUID_1).getUuid());
+    }
+
+    @Test(expected = ResumeNotExistInStorageException.class)
+    public void deleteResumeNotExistInStorageException() {
+        storage.delete(NEW_UUID);
     }
 
     @Test
     public void delete() {
         storage.delete(UUID_1);
-        assertEquals(2, storage.size());
+        assertStorageSize(2);
     }
 
     @Test
@@ -74,30 +114,15 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        assertEquals(0, storage.size());
+        assertStorageSize(0);
     }
 
     @Test
     public void size() {
-        assertEquals(3, storage.size());
+        assertStorageSize(3);
     }
 
-    @Test(expected = ResumeNotExistInStorageException.class)
-    public void resumeNotExistInStorageException() {
-        storage.get(RESUME_NOT_EXIST_UUID);
-    }
-
-    @Test(expected = ResumeAlreadyExistInStorageException.class)
-    public void resumeAlreadyExistInStorageException() {
-        storage.save(new Resume(UUID_1));
-    }
-
-    @Test
-    public void storageIsFullException() {
-        for (int i = 0; i <= AbstractArrayStorage.MAX_SIZE; i++) {
-            try { storage.save(new Resume()); } catch (StorageIsFullException e) {
-                assertEquals(AbstractArrayStorage.MAX_SIZE, storage.size());
-            }
-        }
+    private void assertStorageSize(int expected) {
+        assertEquals(expected, storage.size());
     }
 }

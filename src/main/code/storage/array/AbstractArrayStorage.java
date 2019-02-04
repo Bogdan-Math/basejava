@@ -25,59 +25,39 @@ abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-
-        if (storageIsFull()) {
-            throw new StorageIsFullException(resume.getUuid());
-        }
-
+        if (storageIsFull()) throw new StorageIsFullException(resume.getUuid());
         int index = indexOf(resume.getUuid());
-        if (isExist(index)) {
-            throw new ResumeAlreadyExistInStorageException(resume.getUuid());
-        } else {
-            insert(resume, index);
-            size++;
-        }
+        if (isExist(index)) throw new ResumeAlreadyExistInStorageException(resume.getUuid());
+        insert(resume, index);
+        size++;
     }
 
     @Override
     public Resume get(String uuid) {
         int index = indexOf(uuid);
-        if (!isExist(index)) {
-            throw new ResumeNotExistInStorageException(uuid);
-        } else {
-            return storage[index];
-        }
+        if (!isExist(index)) throw new ResumeNotExistInStorageException(uuid);
+        return storage[index];
     }
 
     @Override
     public void update(Resume resume) {
         int index = indexOf(resume.getUuid());
-        if (!isExist(index)) {
-            throw new ResumeNotExistInStorageException(resume.getUuid());
-        } else {
-            storage[index] = resume;
-        }
+        if (!isExist(index)) throw new ResumeNotExistInStorageException(resume.getUuid());
+        storage[index] = resume;
     }
 
     @Override
     public void delete(String uuid) {
         int index = indexOf(uuid);
-        if (!isExist(index)) {
-            throw new ResumeNotExistInStorageException(uuid);
-        } else {
-            fillEmptyCell(index);
-            storage[size - 1] = null;
-            size--;
-        }
+        if (!isExist(index)) throw new ResumeNotExistInStorageException(uuid);
+        fillEmptyCell(index);
+        storage[size - 1] = null;
+        size--;
     }
 
     @Override
     public Resume[] getAll() {
         return copyOfRange(storage, 0, size);
-    }
-
-    private boolean isExist(int index) {
-        return index > NOT_EXIST_INDEX;
     }
 
     @Override
@@ -91,8 +71,11 @@ abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
+    private boolean isExist(int index) {
+        return index > NOT_EXIST_INDEX;
+    }
+
     private boolean storageIsFull() {
         return size >= storage.length;
     }
-
 }
