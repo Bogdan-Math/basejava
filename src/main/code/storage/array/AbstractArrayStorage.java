@@ -13,15 +13,17 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     static final int NOT_EXIST_INDEX = -1;
 
     Resume[] storage = new Resume[MAX_SIZE];
+    int size = 0;
 
-    protected abstract void insert(Resume resume, Object key);
+    protected abstract void insert(Object key, Resume resume);
 
     protected abstract void fillEmptyCell(Object key);
 
     @Override
     public void doSave(Object key, Resume resume) {
         if (arrayIsFull()) throw new StorageIsFullException(resume.getUuid());
-        insert(resume, key);
+        insert(key, resume);
+        size++;
     }
 
     @Override
@@ -38,6 +40,12 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     public void doDelete(Object key) {
         fillEmptyCell(key);
         storage[size - 1] = null;
+        size--;
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 
     @Override

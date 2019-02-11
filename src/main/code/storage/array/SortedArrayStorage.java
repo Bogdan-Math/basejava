@@ -14,8 +14,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insert(Resume resume, Object key) {
-        int headLastIndex = - (Integer) key - 1;
+    protected void insert(Object key, Resume resume) {
+        int headLastIndex = -(Integer) key - 1;
         arraycopy(storage, headLastIndex, storage, headLastIndex + 1, size - headLastIndex);
         storage[headLastIndex] = resume;
     }

@@ -15,7 +15,7 @@ public class SimpleArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insert(Resume resume, Object key) {
+    protected void insert(Object key, Resume resume) {
         storage[size] = resume;
     }
 

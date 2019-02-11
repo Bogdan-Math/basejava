@@ -6,8 +6,6 @@ import main.code.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected int size = 0;
-
     protected abstract Object getKeyOf(String uuid);
 
     protected abstract boolean isExist(Object key);
@@ -24,7 +22,6 @@ public abstract class AbstractStorage implements Storage {
     public void save(Resume resume) {
         Object key = getNotExistedKeyOf(resume.getUuid());
         doSave(key, resume);
-        size++;
     }
 
     @Override
@@ -43,12 +40,6 @@ public abstract class AbstractStorage implements Storage {
     public void delete(String uuid) {
         Object key = getExistedKeyOf(uuid);
         doDelete(key);
-        size--;
-    }
-
-    @Override
-    public int size() {
-        return size;
     }
 
     private Object getExistedKeyOf(String key) {
