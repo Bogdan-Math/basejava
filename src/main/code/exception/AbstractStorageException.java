@@ -1,8 +1,8 @@
 package main.code.exception;
 
-abstract class AbstractStorageException extends RuntimeException {
+public abstract class AbstractStorageException extends RuntimeException {
 
-    AbstractStorageException(String description) {
+    protected AbstractStorageException(String description) {
         super(description);
     }
 }

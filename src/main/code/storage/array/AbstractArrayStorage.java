@@ -1,58 +1,48 @@
 package main.code.storage.array;
 
-import main.code.exception.ResumeAlreadyExistInStorageException;
-import main.code.exception.ResumeNotExistInStorageException;
-import main.code.exception.StorageIsFullException;
+import main.code.exception.array.StorageIsFullException;
 import main.code.model.Resume;
-import main.code.storage.Storage;
+import main.code.storage.AbstractStorage;
 
 import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.fill;
 
-abstract class AbstractArrayStorage implements Storage {
+abstract class AbstractArrayStorage extends AbstractStorage {
 
     static final int MAX_SIZE = 1000;
     static final int NOT_EXIST_INDEX = -1;
 
-    Resume[] storage    = new Resume[MAX_SIZE];
-    int size            = 0;
+    Resume[] storage = new Resume[MAX_SIZE];
 
-    abstract int indexOf(String uuid);
+    protected abstract void insert(Resume resume, Object key);
 
-    abstract void insert(Resume resume, int index);
-
-    abstract void fillEmptyCell(int index);
+    protected abstract void fillEmptyCell(Object key);
 
     @Override
-    public void save(Resume resume) {
-        if (storageIsFull()) throw new StorageIsFullException(resume.getUuid());
-        int index = indexOf(resume.getUuid());
-        if (isExist(index)) throw new ResumeAlreadyExistInStorageException(resume.getUuid());
-        insert(resume, index);
-        size++;
+    public void doSave(Object key, Resume resume) {
+        if (arrayIsFull()) throw new StorageIsFullException(resume.getUuid());
+        insert(resume, key);
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = indexOf(uuid);
-        if (!isExist(index)) throw new ResumeNotExistInStorageException(uuid);
-        return storage[index];
+    public Resume doGet(Object key) {
+        return storage[(Integer) key];
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = indexOf(resume.getUuid());
-        if (!isExist(index)) throw new ResumeNotExistInStorageException(resume.getUuid());
-        storage[index] = resume;
+    public void doUpdate(Object key, Resume resume) {
+        storage[(Integer) key] = resume;
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = indexOf(uuid);
-        if (!isExist(index)) throw new ResumeNotExistInStorageException(uuid);
-        fillEmptyCell(index);
+    public void doDelete(Object key) {
+        fillEmptyCell(key);
         storage[size - 1] = null;
-        size--;
+    }
+
+    @Override
+    protected boolean isExist(Object key) {
+        return (Integer) key > NOT_EXIST_INDEX;
     }
 
     @Override
@@ -66,16 +56,7 @@ abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    @Override
-    public int size() {
-        return size;
-    }
-
-    private boolean isExist(int index) {
-        return index > NOT_EXIST_INDEX;
-    }
-
-    private boolean storageIsFull() {
+    private boolean arrayIsFull() {
         return size >= storage.length;
     }
 }

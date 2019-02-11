@@ -1,4 +1,6 @@
-package main.code.exception;
+package main.code.exception.array;
+
+import main.code.exception.AbstractStorageException;
 
 public class StorageIsFullException extends AbstractStorageException {
 
