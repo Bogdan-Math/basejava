@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -88,12 +90,12 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] resumes = storage.getAll();
-        assertEquals(3, resumes.length);
-        assertNotNull(resumes[0]);
-        assertNotNull(resumes[1]);
-        assertNotNull(resumes[2]);
+    public void getAllSorted() {
+        List<Resume> resumes = storage.getAllSorted();
+        assertEquals(3, resumes.size());
+        assertNotNull(resumes.get(0));
+        assertNotNull(resumes.get(1));
+        assertNotNull(resumes.get(2));
     }
 
     @Test

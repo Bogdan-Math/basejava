@@ -6,6 +6,8 @@ import main.code.storage.AbstractStorage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class ListStorage extends AbstractStorage {
 
     private List<Resume> storage = new ArrayList<>();
@@ -51,8 +53,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[storage.size()]);
+    public List<Resume> getAllSorted() {
+        return storage.stream().sorted(RESUME_COMPARATOR).collect(toList());
     }
 
     @Override

@@ -2,6 +2,8 @@ package main.code.storage.array;
 
 import main.code.model.Resume;
 
+import static java.util.Arrays.sort;
+
 public class SimpleArrayStorage extends AbstractArrayStorage {
 
     @Override
@@ -24,4 +26,9 @@ public class SimpleArrayStorage extends AbstractArrayStorage {
         storage[(Integer) key] = storage[size - 1];
     }
 
+    @Override
+    public Resume[] sortStorage() {
+        sort(storage, RESUME_COMPARATOR);
+        return storage;
+    }
 }

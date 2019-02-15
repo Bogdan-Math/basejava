@@ -2,10 +2,15 @@ package main.code.storage;
 
 import main.code.model.Resume;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Array based main.code.storage for Resumes
  */
 public interface Storage {
+
+    Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     void clear();
 
@@ -17,7 +22,7 @@ public interface Storage {
 
     void delete(String uuid);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     int size();
 }

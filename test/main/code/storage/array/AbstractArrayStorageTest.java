@@ -6,6 +6,8 @@ import main.code.storage.AbstractStorageTest;
 import main.code.storage.Storage;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
@@ -18,7 +20,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void saveStorageIsFullException() {
         try {
             for (int i = storage.size(); i <= AbstractArrayStorage.MAX_SIZE; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume(UUID.randomUUID().toString()));
             }
             fail();
         } catch (StorageIsFullException e) {

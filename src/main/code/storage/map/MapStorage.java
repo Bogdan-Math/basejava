@@ -4,7 +4,10 @@ import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 public class MapStorage extends AbstractStorage {
 
@@ -46,8 +49,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[storage.size()]);
+    public List<Resume> getAllSorted() {
+        return storage.values().stream().sorted(RESUME_COMPARATOR).collect(toList());
     }
 
     @Override

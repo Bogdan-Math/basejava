@@ -4,8 +4,10 @@ import main.code.exception.array.StorageIsFullException;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
 
-import static java.util.Arrays.copyOfRange;
-import static java.util.Arrays.fill;
+import java.util.List;
+import java.util.Objects;
+
+import static java.util.Arrays.*;
 
 abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -18,6 +20,8 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void insert(Object key, Resume resume);
 
     protected abstract void fillEmptyCell(Object key);
+
+    abstract Resume[] sortStorage();
 
     @Override
     public void doSave(Object key, Resume resume) {
@@ -54,8 +58,11 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return copyOfRange(storage, 0, size);
+    public List<Resume> getAllSorted() {
+        storage = stream(storage)
+                .filter(Objects::nonNull)
+                .toArray(Resume[]::new);
+        return asList(sortStorage());
     }
 
     @Override
