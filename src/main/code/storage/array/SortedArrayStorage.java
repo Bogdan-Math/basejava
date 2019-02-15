@@ -2,6 +2,8 @@ package main.code.storage.array;
 
 import main.code.model.Resume;
 
+import java.util.Comparator;
+
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.binarySearch;
 
@@ -10,7 +12,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected Object getKeyOf(String uuid) {
         Resume resume = new Resume(uuid);
-        return binarySearch(storage, 0, size, resume);
+        return binarySearch(storage, 0, size, resume, Comparator.comparing(Resume::getUuid));
     }
 
     @Override
