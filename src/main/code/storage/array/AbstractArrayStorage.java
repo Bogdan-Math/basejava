@@ -21,8 +21,6 @@ abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void fillEmptyCell(Object key);
 
-    abstract Resume[] sortStorage();
-
     @Override
     public void doSave(Object key, Resume resume) {
         if (arrayIsFull()) throw new StorageIsFullException(resume.getUuid());
@@ -48,6 +46,13 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doCopyAll() {
+        return asList(stream(storage)
+                .filter(Objects::nonNull)
+                .toArray(Resume[]::new));
+    }
+
+    @Override
     public int size() {
         return size;
     }
@@ -55,14 +60,6 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     protected boolean isExist(Object key) {
         return (Integer) key > NOT_EXIST_INDEX;
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        storage = stream(storage)
-                .filter(Objects::nonNull)
-                .toArray(Resume[]::new);
-        return asList(sortStorage());
     }
 
     @Override

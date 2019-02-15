@@ -3,11 +3,10 @@ package main.code.storage.map;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
 
 public class MapStorage extends AbstractStorage {
 
@@ -44,13 +43,13 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public void clear() {
-        storage.clear();
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage.values().stream().sorted(RESUME_COMPARATOR).collect(toList());
+    public void clear() {
+        storage.clear();
     }
 
     @Override

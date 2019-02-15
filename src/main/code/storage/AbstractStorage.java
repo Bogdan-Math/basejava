@@ -4,6 +4,8 @@ import main.code.exception.ResumeAlreadyExistInStorageException;
 import main.code.exception.ResumeNotExistInStorageException;
 import main.code.model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getKeyOf(String uuid);
@@ -17,6 +19,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void doUpdate(Object key, Resume resume);
 
     protected abstract void doDelete(Object key);
+
+    protected abstract List<Resume> doCopyAll();
 
     @Override
     public void save(Resume resume) {
@@ -40,6 +44,13 @@ public abstract class AbstractStorage implements Storage {
     public void delete(String uuid) {
         Object key = getExistedKeyOf(uuid);
         doDelete(key);
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> copyAll = doCopyAll();
+        copyAll.sort(RESUME_COMPARATOR);
+        return copyAll;
     }
 
     private Object getExistedKeyOf(String key) {

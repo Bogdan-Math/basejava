@@ -4,9 +4,8 @@ import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class ListStorage extends AbstractStorage {
 
@@ -48,13 +47,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void clear() {
-        storage.clear();
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(storage);
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage.stream().sorted(RESUME_COMPARATOR).collect(toList());
+    public void clear() {
+        storage.clear();
     }
 
     @Override
