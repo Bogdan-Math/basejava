@@ -15,16 +15,20 @@ import static org.junit.Assert.assertNotNull;
 public abstract class AbstractStorageTest {
 
     private static final String UUID_1 = "UUID_1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final String FULL_NAME_1 = "FULL_NAME_1";
+    private static final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
 
     private static final String UUID_2 = "UUID_2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final String FULL_NAME_2 = "FULL_NAME_2";
+    private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
 
     private static final String UUID_3 = "UUID_3";
-    private static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final String FULL_NAME_3 = "FULL_NAME_3";
+    private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
 
     private static final String NEW_UUID = "NEW_UUID";
-    private static final Resume NEW_RESUME = new Resume(NEW_UUID);
+    private static final String NEW_FULL_NAME = "NEW_FULL_NAME";
+    private static final Resume NEW_RESUME = new Resume(NEW_UUID, NEW_FULL_NAME);
 
     protected Storage storage;
 
@@ -73,7 +77,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        storage.update(new Resume(UUID_1));
+        storage.update(new Resume(UUID_1, NEW_FULL_NAME));
         assertStorageSize(3);
         assertEquals(RESUME_1.getUuid(), storage.get(UUID_1).getUuid());
     }

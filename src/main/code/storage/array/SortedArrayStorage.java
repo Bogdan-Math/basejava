@@ -9,7 +9,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected Object getKeyOf(String uuid) {
-        Resume resume = new Resume(uuid);
+        Resume resume = new Resume(uuid, "temporally_comparision_name");
         return binarySearch(storage, 0, size, resume, RESUME_COMPARATOR);
     }
 
