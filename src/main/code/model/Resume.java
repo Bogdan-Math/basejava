@@ -1,17 +1,12 @@
 package main.code.model;
 
-import java.util.UUID;
-
 /**
  * Initial resume class
  */
 public class Resume {
 
-    private final String uuid;
-
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
+    private String uuid;
+    private String fullName;
 
     public Resume(String uuid) {
         this.uuid = uuid;
@@ -19,18 +14,6 @@ public class Resume {
 
     public String getUuid() {
         return uuid;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        return uuid.equals(((Resume) o).uuid);
-    }
-
-    @Override
-    public int hashCode() {
-        return uuid.hashCode();
     }
 
     @Override
