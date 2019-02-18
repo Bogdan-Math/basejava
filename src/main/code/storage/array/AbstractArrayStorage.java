@@ -9,7 +9,7 @@ import java.util.Objects;
 
 import static java.util.Arrays.*;
 
-abstract class AbstractArrayStorage extends AbstractStorage {
+abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     static final int MAX_SIZE = 1000;
     static final int NOT_EXIST_INDEX = -1;
@@ -17,29 +17,29 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     Resume[] storage = new Resume[MAX_SIZE];
     int size = 0;
 
-    protected abstract void insert(Object key, Resume resume);
+    abstract void insert(Integer key, Resume resume);
 
-    protected abstract void fillEmptyCell(Object key);
+    abstract void fillEmptyCell(Integer key);
 
     @Override
-    public void doSave(Object key, Resume resume) {
+    public void doSave(Integer key, Resume resume) {
         if (arrayIsFull()) throw new StorageIsFullException(resume.getUuid());
         insert(key, resume);
         size++;
     }
 
     @Override
-    public Resume doGet(Object key) {
-        return storage[(Integer) key];
+    public Resume doGet(Integer key) {
+        return storage[key];
     }
 
     @Override
-    public void doUpdate(Object key, Resume resume) {
-        storage[(Integer) key] = resume;
+    public void doUpdate(Integer key, Resume resume) {
+        storage[key] = resume;
     }
 
     @Override
-    public void doDelete(Object key) {
+    public void doDelete(Integer key) {
         fillEmptyCell(key);
         storage[size - 1] = null;
         size--;
@@ -58,8 +58,8 @@ abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object key) {
-        return (Integer) key > NOT_EXIST_INDEX;
+    protected boolean isExist(Integer key) {
+        return key > NOT_EXIST_INDEX;
     }
 
     @Override

@@ -8,38 +8,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<String> {
 
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected Object getKeyOf(String uuid) {
+    protected String getKeyOf(String uuid) {
         return uuid;
     }
 
     @Override
-    protected boolean isExist(Object key) {
-        return storage.containsKey((String) key);
+    protected boolean isExist(String key) {
+        return storage.containsKey(key);
     }
 
     @Override
-    protected void doSave(Object key, Resume resume) {
-        storage.put((String) key, resume);
+    protected void doSave(String key, Resume resume) {
+        storage.put(key, resume);
     }
 
     @Override
-    protected Resume doGet(Object key) {
-        return storage.getOrDefault((String) key, null);
+    protected Resume doGet(String key) {
+        return storage.getOrDefault(key, null);
     }
 
     @Override
-    protected void doUpdate(Object key, Resume resume) {
-        storage.put((String) key, resume);
+    protected void doUpdate(String key, Resume resume) {
+        storage.put(key, resume);
     }
 
     @Override
-    protected void doDelete(Object key) {
-        storage.remove((String) key);
+    protected void doDelete(String key) {
+        storage.remove(key);
     }
 
     @Override

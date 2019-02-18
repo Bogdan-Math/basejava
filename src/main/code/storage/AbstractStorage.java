@@ -6,43 +6,43 @@ import main.code.model.Resume;
 
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<K> implements Storage {
 
-    protected abstract Object getKeyOf(String uuid);
+    protected abstract K getKeyOf(String uuid);
 
-    protected abstract boolean isExist(Object key);
+    protected abstract boolean isExist(K key);
 
-    protected abstract void doSave(Object key, Resume resume);
+    protected abstract void doSave(K key, Resume resume);
 
-    protected abstract Resume doGet(Object key);
+    protected abstract Resume doGet(K key);
 
-    protected abstract void doUpdate(Object key, Resume resume);
+    protected abstract void doUpdate(K key, Resume resume);
 
-    protected abstract void doDelete(Object key);
+    protected abstract void doDelete(K key);
 
     protected abstract List<Resume> doCopyAll();
 
     @Override
     public void save(Resume resume) {
-        Object key = getNotExistedKeyOf(resume.getUuid());
+        K key = getNotExistedKeyOf(resume.getUuid());
         doSave(key, resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object key = getExistedKeyOf(uuid);
+        K key = getExistedKeyOf(uuid);
         return doGet(key);
     }
 
     @Override
     public void update(Resume resume) {
-        Object key = getExistedKeyOf(resume.getUuid());
+        K key = getExistedKeyOf(resume.getUuid());
         doUpdate(key, resume);
     }
 
     @Override
     public void delete(String uuid) {
-        Object key = getExistedKeyOf(uuid);
+        K key = getExistedKeyOf(uuid);
         doDelete(key);
     }
 
@@ -53,14 +53,14 @@ public abstract class AbstractStorage implements Storage {
         return copyAll;
     }
 
-    private Object getExistedKeyOf(String key) {
-        Object oKey = getKeyOf(key);
+    private K getExistedKeyOf(String key) {
+        K oKey = getKeyOf(key);
         if (!isExist(oKey)) throw new ResumeNotExistInStorageException(key);
         return oKey;
     }
 
-    private Object getNotExistedKeyOf(String key) {
-        Object oKey = getKeyOf(key);
+    private K getNotExistedKeyOf(String key) {
+        K oKey = getKeyOf(key);
         if (isExist(oKey)) throw new ResumeAlreadyExistInStorageException(key);
         return oKey;
     }
