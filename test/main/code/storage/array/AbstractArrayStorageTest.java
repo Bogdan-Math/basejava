@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void saveStorageIsFullException() {
         try {
             for (int i = storage.size(); i <= AbstractArrayStorage.MAX_SIZE; i++) {
-                storage.save(new Resume(UUID.randomUUID().toString()));
+                storage.save(new Resume("FULL_NAME_" + i));
             }
             fail();
         } catch (StorageIsFullException e) {

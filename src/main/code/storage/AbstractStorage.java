@@ -5,8 +5,11 @@ import main.code.exception.ResumeNotExistInStorageException;
 import main.code.model.Resume;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class AbstractStorage<K> implements Storage {
+
+    private static final Logger LOGGER = Logger.getLogger(AbstractStorage.class.getName());
 
     protected abstract K getKeyOf(String uuid);
 
@@ -24,24 +27,28 @@ public abstract class AbstractStorage<K> implements Storage {
 
     @Override
     public void save(Resume resume) {
+        LOGGER.info("save: " + resume);
         K key = getNotExistedKeyOf(resume.getUuid());
         doSave(key, resume);
     }
 
     @Override
     public Resume get(String uuid) {
+        LOGGER.info("get: " + uuid);
         K key = getExistedKeyOf(uuid);
         return doGet(key);
     }
 
     @Override
     public void update(Resume resume) {
+        LOGGER.info("update: " + resume);
         K key = getExistedKeyOf(resume.getUuid());
         doUpdate(key, resume);
     }
 
     @Override
     public void delete(String uuid) {
+        LOGGER.info("delete: " + uuid);
         K key = getExistedKeyOf(uuid);
         doDelete(key);
     }
