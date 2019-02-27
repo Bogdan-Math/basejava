@@ -5,6 +5,7 @@ import java.time.Month;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static main.code.util.DateUtil.NOW;
 import static main.code.util.DateUtil.of;
 
 public class Organization {
@@ -28,6 +29,10 @@ public class Organization {
         private final LocalDate endDate;
         private final String title;
         private final String description;
+
+        public Position(int startYear, Month startMonth, String title, String description) {
+            this(of(startYear, startMonth), NOW, title, description);
+        }
 
         public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
