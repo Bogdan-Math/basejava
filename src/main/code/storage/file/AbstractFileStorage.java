@@ -6,6 +6,7 @@ import main.code.storage.AbstractStorage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -27,6 +28,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     abstract void doWrite(File key, Resume resume) throws IOException;
 
+    abstract Resume doRead(File key) throws IOException;
+
     @Override
     protected File getKeyOf(String uuid) {
         return new File(directory, uuid);
@@ -41,39 +44,66 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(File key, Resume resume) {
         try {
             key.createNewFile();
-            doWrite(key, resume);
         } catch (IOException e) {
             throw new IOStorageException(key.getName() + ": " + e.getMessage());
         }
+        doUpdate(key, resume);
     }
 
     @Override
     protected Resume doGet(File key) {
-        return null;
+        try {
+            return doRead(key);
+        } catch (IOException e) {
+            throw new IOStorageException("zxczczxc");
+        }
     }
 
     @Override
     protected void doUpdate(File key, Resume resume) {
-
+        try {
+            doWrite(key, resume);
+        } catch (IOException e) {
+            throw new IOStorageException("ASDAS");
+        }
     }
 
     @Override
     protected void doDelete(File key) {
-
+        if (!key.delete()) {
+            throw new IOStorageException(key.getName());
+        }
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        return null;
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new IOStorageException("bbbbbbb");
+        }
+        ArrayList<Resume> resumes = new ArrayList<>(files.length);
+        for (File file : files) {
+            resumes.add(doGet(file));
+        }
+        return resumes;
     }
 
     @Override
     public void clear() {
-
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                doDelete(file);
+            }
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        String[] files = directory.list();
+        if (files == null) {
+            throw new IOStorageException("!!!!");
+        }
+        return files.length;
     }
 }
