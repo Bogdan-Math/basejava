@@ -2,9 +2,15 @@ package main.code.model;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class ListSection extends Section {
 
     private final List<String> items;
+
+    public ListSection(String... items) {
+        this(asList(items));
+    }
 
     public ListSection(List<String> items) {
         this.items = items;

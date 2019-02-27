@@ -44,6 +44,14 @@ public class Resume {
         return sections.get(sectionType);
     }
 
+    public void addContact(ContactType contactType, String value) {
+        contacts.put(contactType, value);
+    }
+
+    public void addSection(SectionType sectionType, Section section) {
+        sections.put(sectionType, section);
+    }
+
     @Override
     public String toString() {
         return "Resume{" +

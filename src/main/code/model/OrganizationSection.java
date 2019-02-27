@@ -2,9 +2,15 @@ package main.code.model;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class OrganizationSection extends Section {
 
     private final List<Organization> organizations;
+
+    public OrganizationSection(Organization... organizations) {
+        this(asList(organizations));
+    }
 
     public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;
