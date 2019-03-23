@@ -4,8 +4,7 @@ import main.code.exception.file.IOStorageException;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +25,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    abstract void doWrite(File key, Resume resume) throws IOException;
+    abstract void doWrite(OutputStream key, Resume resume) throws IOException;
 
-    abstract Resume doRead(File key) throws IOException;
+    abstract Resume doRead(InputStream key) throws IOException;
 
     @Override
     protected File getKeyOf(String uuid) {
@@ -53,7 +52,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File key) {
         try {
-            return doRead(key);
+            return doRead(new BufferedInputStream(new FileInputStream(key)));
         } catch (IOException e) {
             throw new IOStorageException("zxczczxc");
         }
@@ -62,7 +61,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File key, Resume resume) {
         try {
-            doWrite(key, resume);
+            doWrite(new BufferedOutputStream(new FileOutputStream(key)), resume);
         } catch (IOException e) {
             throw new IOStorageException("ASDAS");
         }
