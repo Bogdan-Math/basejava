@@ -25,9 +25,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    abstract void doWrite(OutputStream key, Resume resume) throws IOException;
+    protected abstract Resume doRead(InputStream key) throws IOException;
 
-    abstract Resume doRead(InputStream key) throws IOException;
+    protected abstract void doWrite(OutputStream key, Resume resume) throws IOException;
 
     @Override
     protected File getKeyOf(String uuid) {

@@ -1,10 +1,13 @@
 package main.code.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
 public class OrganizationSection extends Section {
+
+    private static final long serialVersionUID = 1L;
 
     private final List<Organization> organizations;
 
@@ -24,15 +27,13 @@ public class OrganizationSection extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrganizationSection that = (OrganizationSection) o;
-
-        return organizations != null ? organizations.equals(that.organizations) : that.organizations == null;
+        return Objects.equals(organizations, that.organizations);
     }
 
     @Override
     public int hashCode() {
-        return organizations != null ? organizations.hashCode() : 0;
+        return Objects.hash(organizations);
     }
 
     @Override

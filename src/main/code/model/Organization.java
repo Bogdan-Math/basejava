@@ -1,14 +1,18 @@
 package main.code.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 import static main.code.util.DateUtil.NOW;
 import static main.code.util.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final Link link;
     private final List<Position> positions;
@@ -23,7 +27,9 @@ public class Organization {
         this.positions = positions;
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         private final LocalDate startDate;
         private final LocalDate endDate;
@@ -44,5 +50,35 @@ public class Organization {
             this.title = title;
             this.description = description;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Position position = (Position) o;
+            return Objects.equals(startDate, position.startDate) &&
+                    Objects.equals(endDate, position.endDate) &&
+                    Objects.equals(title, position.title) &&
+                    Objects.equals(description, position.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(startDate, endDate, title, description);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(link, that.link) &&
+                Objects.equals(positions, that.positions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(link, positions);
     }
 }
