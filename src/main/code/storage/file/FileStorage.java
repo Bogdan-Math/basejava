@@ -3,6 +3,7 @@ package main.code.storage.file;
 import main.code.exception.file.IOStorageException;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
+import main.code.storage.file.strategy.StreamSerializerStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private File directory;
+    private StreamSerializerStrategy streamSerializerStrategy;
 
-    protected AbstractFileStorage(File directory) {
+    public FileStorage(File directory, StreamSerializerStrategy streamSerializerStrategy) {
         requireNonNull(directory);
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is NOT directory.");
@@ -23,11 +25,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is NOT readable/writable.");
         }
         this.directory = directory;
+        this.streamSerializerStrategy = streamSerializerStrategy;
     }
-
-    protected abstract Resume doRead(InputStream key) throws IOException;
-
-    protected abstract void doWrite(OutputStream key, Resume resume) throws IOException;
 
     @Override
     protected File getKeyOf(String uuid) {
@@ -52,7 +51,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume doGet(File key) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(key)));
+            return streamSerializerStrategy.doRead(new BufferedInputStream(new FileInputStream(key)));
         } catch (IOException e) {
             throw new IOStorageException("zxczczxc");
         }
@@ -61,7 +60,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(File key, Resume resume) {
         try {
-            doWrite(new BufferedOutputStream(new FileOutputStream(key)), resume);
+            streamSerializerStrategy.doWrite(new BufferedOutputStream(new FileOutputStream(key)), resume);
         } catch (IOException e) {
             throw new IOStorageException("ASDAS");
         }

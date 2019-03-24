@@ -1,18 +1,14 @@
-package main.code.storage.stream;
+package main.code.storage.file.strategy;
 
 import main.code.model.Resume;
-import main.code.storage.file.AbstractFileStorage;
+import main.code.storage.file.strategy.StreamSerializerStrategy;
 
 import java.io.*;
 
-public class ObjectStreamStorage extends AbstractFileStorage {
-
-    protected ObjectStreamStorage(File directory) {
-        super(directory);
-    }
+public class ObjectStreamSerializerStrategy implements StreamSerializerStrategy {
 
     @Override
-    protected Resume doRead(InputStream key) throws IOException {
+    public Resume doRead(InputStream key) throws IOException {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(key)) {
             return (Resume) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
@@ -21,7 +17,7 @@ public class ObjectStreamStorage extends AbstractFileStorage {
     }
 
     @Override
-    protected void doWrite(OutputStream key, Resume resume) throws IOException {
+    public void doWrite(OutputStream key, Resume resume) throws IOException {
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(key)) {
             objectOutputStream.writeObject(resume);
         }

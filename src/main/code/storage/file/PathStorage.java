@@ -3,8 +3,11 @@ package main.code.storage.file;
 import main.code.exception.file.IOStorageException;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
+import main.code.storage.file.strategy.StreamSerializerStrategy;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -12,11 +15,12 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
 
     private Path directory;
+    private StreamSerializerStrategy streamSerializerStrategy;
 
-    protected AbstractPathStorage(Path directory) {
+    public PathStorage(Path directory, StreamSerializerStrategy streamSerializerStrategy) {
         requireNonNull(directory);
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException(directory.toAbsolutePath() + " is NOT directory.");
@@ -25,11 +29,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             throw new IllegalArgumentException(directory.toAbsolutePath() + " is NOT readable/writable.");
         }
         this.directory = directory;
+        this.streamSerializerStrategy = streamSerializerStrategy;
     }
-
-    protected abstract Resume doRead(InputStream key) throws IOException;
-
-    protected abstract void doWrite(OutputStream key, Resume resume) throws IOException;
 
     @Override
     protected Path getKeyOf(String uuid) {
@@ -54,7 +55,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path key) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(key)));
+            return streamSerializerStrategy.doRead(new BufferedInputStream(Files.newInputStream(key)));
         } catch (IOException e) {
             throw new IOStorageException("zxczczxc");
         }
@@ -63,7 +64,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path key, Resume resume) {
         try {
-            doWrite(new BufferedOutputStream(Files.newOutputStream(key)), resume);
+            streamSerializerStrategy.doWrite(new BufferedOutputStream(Files.newOutputStream(key)), resume);
         } catch (IOException e) {
             throw new IOStorageException("ASDAS");
         }
