@@ -1,9 +1,9 @@
-package main.code.storage.file;
+package main.code.storage.disk;
 
 import main.code.exception.file.IOStorageException;
 import main.code.model.Resume;
 import main.code.storage.AbstractStorage;
-import main.code.storage.file.strategy.StreamSerializerStrategy;
+import main.code.storage.disk.strategy.StreamSerializerStrategy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

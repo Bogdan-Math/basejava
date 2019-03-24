@@ -1,4 +1,4 @@
-package main.code.storage.file.strategy;
+package main.code.storage.disk.strategy;
 
 import main.code.model.Resume;
 
