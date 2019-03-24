@@ -6,9 +6,9 @@ import main.code.storage.disk.strategy.ObjectStreamSerializerStrategy;
 
 import java.io.File;
 
-public class StorageByObjectStreamSerializerStrategyTest extends AbstractStorageTest {
+public class ByObjectStreamSerializerStrategyTest extends AbstractStorageTest {
 
-    public StorageByObjectStreamSerializerStrategyTest() {
+    public ByObjectStreamSerializerStrategyTest() {
         super(new FileStorage(
                 new File("D:\\Projects\\Java\\basejava\\storage"),
                 new ObjectStreamSerializerStrategy()
