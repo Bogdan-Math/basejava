@@ -1,7 +1,5 @@
 package main.code.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.List;
 
 import static java.util.Arrays.asList;

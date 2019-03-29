@@ -1,6 +1,6 @@
 package main.code.model;
 
-import main.code.util.LocalDateXmlAdapter;
+import main.code.util.xml.LocalDateXmlAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

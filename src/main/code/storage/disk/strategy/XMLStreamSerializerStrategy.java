@@ -1,7 +1,7 @@
 package main.code.storage.disk.strategy;
 
 import main.code.model.*;
-import main.code.util.XMLParser;
+import main.code.util.xml.XMLParser;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
