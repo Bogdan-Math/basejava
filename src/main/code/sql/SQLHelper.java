@@ -25,4 +25,20 @@ public class SQLHelper {
         }
     }
 
+    public <T> T transqctionalExecute(SQLTransaction<T> sqlTransaction) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                final T executed = sqlTransaction.execute(connection);
+                connection.commit();
+                return executed;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
