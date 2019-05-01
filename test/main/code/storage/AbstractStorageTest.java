@@ -1,33 +1,32 @@
 package main.code.storage;
 
-import main.code.exception.ResumeAlreadyExistInStorageException;
 import main.code.exception.ResumeNotExistInStorageException;
-import main.code.model.*;
+import main.code.model.Resume;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.Month;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public abstract class AbstractStorageTest {
 
-    private static final String UUID_1 = "UUID_1";
+    private static final String UUID_1 = UUID.randomUUID().toString();
     private static final String FULL_NAME_1 = "FULL_NAME_1";
     private static final Resume RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
 
-    private static final String UUID_2 = "UUID_2";
+    private static final String UUID_2 = UUID.randomUUID().toString();
     private static final String FULL_NAME_2 = "FULL_NAME_2";
     private static final Resume RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
 
-    private static final String UUID_3 = "UUID_3";
+    private static final String UUID_3 = UUID.randomUUID().toString();
     private static final String FULL_NAME_3 = "FULL_NAME_3";
     private static final Resume RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
 
-    private static final String NEW_UUID = "NEW_UUID";
+    private static final String NEW_UUID = UUID.randomUUID().toString();
     private static final String NEW_FULL_NAME = "NEW_FULL_NAME";
     private static final Resume NEW_RESUME = new Resume(NEW_UUID, NEW_FULL_NAME);
 

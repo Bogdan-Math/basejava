@@ -1,6 +1,7 @@
 package main.code.storage.db;
 
 import main.code.exception.ResumeNotExistInStorageException;
+import main.code.model.ContactType;
 import main.code.model.Resume;
 import main.code.sql.SQLHelper;
 import main.code.storage.Storage;
@@ -9,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SQLStorage implements Storage {
 
@@ -31,17 +33,30 @@ public class SQLStorage implements Storage {
             preparedStatement.execute();
             return null;
         });
+        for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
+            sqlHelper.<Void>execute("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)", preparedStatement -> {
+                preparedStatement.setString(1, resume.getUuid());
+                preparedStatement.setString(2, entry.getKey().name());
+                preparedStatement.setString(2, entry.getValue());
+                preparedStatement.execute();
+                return null;
+            });
+        }
     }
 
     @Override
     public Resume get(String uuid) {
-        return sqlHelper.execute("SELECT * FROM resume WHERE uuid = ?", preparedStatement -> {
+        return sqlHelper.execute("SELECT * FROM resume r LEFT JOIN contact c ON r.uuid = c.resume_uuid WHERE r.uuid = ?", preparedStatement -> {
             preparedStatement.setString(1, uuid);
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new ResumeNotExistInStorageException(uuid);
             }
-            return new Resume(uuid, resultSet.getString("full_name"));
+            final Resume resume = new Resume(uuid, resultSet.getString("full_name"));
+            while (resultSet.next()) {
+                resume.addContact(ContactType.valueOf(resultSet.getString("type")), resultSet.getString("value"));
+            }
+            return resume;
         });
     }
 
