@@ -73,7 +73,7 @@ public abstract class AbstractStorageTest {
 
     @After
     public void tearDown() {
-        storage.clear();
+//        storage.clear();
     }
 
     @Test(expected = RuntimeException.class)
