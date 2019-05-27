@@ -19,7 +19,8 @@ public class Config {
     }
 
     private Config() {
-        try (InputStream is = new FileInputStream("./config/resume.properties")) {
+//        try (InputStream is = new FileInputStream("./config/resume.properties")) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("./config/resume.properties")) {
             Properties properties = new Properties();
             properties.load(is);
             pathName = properties.getProperty("path.name");
